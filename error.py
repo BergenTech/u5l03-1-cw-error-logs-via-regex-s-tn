@@ -6,7 +6,7 @@ csv_path = 'error_logs.csv'
 try:
     logs = json.load(open(logs_path, 'r'))
 
-    errors = [log for log in logs if re.match(r'.*ERROR.*', log['level'])]
+    errors = [log for log in logs if re.match(r'(?im).*ERROR.*', log['level'])]
 
     with open(csv_path, 'w') as f:
         fieldnames = ['timestamp', 'level', 'message']
@@ -14,7 +14,7 @@ try:
         writer.writeheader()
 
         for error in errors:
-            error['level'] = re.match(r'.*(ERROR).*', error['level']).group(1)
+            error['level'] = "ERROR"
             writer.writerow(error)
 except FileNotFoundError as e:
     print(f'File not found: {e.filename}')
